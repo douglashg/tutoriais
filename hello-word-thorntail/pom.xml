@@ -44,6 +44,38 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+	  <groupId>org.apache.maven.plugins</groupId>
+	  <artifactId>maven-release-plugin</artifactId>
+	  <version>2.5.3</version>
+	  <configuration>
+	   <tagNameFormat>v@{project.version}</tagNameFormat>
+	   <checkModificationExcludes>
+        <checkModificationExclude>pom.xml</checkModificationExclude>
+        </checkModificationExcludes>
+	   </configuration>
+	 </plugin>
+	 <plugin>
+  	  <groupId>io.fabric8</groupId>
+  	  <artifactId>docker-maven-plugin</artifactId>
+  		<configuration>
+    		<images>
+      		<image>
+        	<name>a7ittech/a7/${project.artifactId}:v1.0.0</name>
+        	<build>
+          		<from>fabric8/java-jboss-openjdk8-jdk</from>
+          		<assembly>
+            		<descriptorRef>artifact-with-dependencies</descriptorRef>
+          		</assembly>
+          		<env>
+            		<JAVA_APP_DIR>/maven</JAVA_APP_DIR>
+            		<JAVA_MAIN_CLASS>io.thorntail.Thorntail</JAVA_MAIN_CLASS>
+          		</env>
+        	</build>
+      		</image>
+    		</images>
+  		</configuration>
+	</plugin>
     </plugins>
   </build>
 
